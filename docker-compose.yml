@@ -9,3 +9,15 @@ services:
       - 3000:3000
     volumes:
       - ./frontend:/home/node/app/frontend
+
+  backend:
+    container_name: backend-api
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    ports:
+      - 8080:8080
+    volumes:
+      - ./api:/home/node/app/api
+    depends_on:
+      - frontend
