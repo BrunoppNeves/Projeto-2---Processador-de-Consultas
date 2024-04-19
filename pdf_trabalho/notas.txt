@@ -1,0 +1,5 @@
+const regex = /^SELECT\s(\*|[A-Za-z.]+(?:, [A-Za-z.]+)*)\sFROM\s[A-Za-z.]+(?:\s(?:WHERE\s[A-Za-z.]+|JOIN\s[A-Za-z.]+\sON\s[A-Za-z.]+\.[A-Za-z.]+\s=\s[A-Za-z.]+\.[A-Za-z.]+(?:\sJOIN\s[A-Za-z.]+\sON\s[A-Za-z.]+)*))?$/
+
+const query = 'SELECT * FROM oie WHERE oioio';
+
+console.log(regex.test(query))
