@@ -4,7 +4,8 @@
     "module": "commonjs",
     "outDir": "./dist",
     "strict": true,
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "lib": ["es2016", "dom"]
   },
   "include": ["./**/*.ts", "models/ApiRoutes.ts"],
   "exclude": ["node_modules"]
