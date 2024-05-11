@@ -6,7 +6,6 @@ import {
   convertSQLToAlgebraRelational,
 } from '../controllers/RelationalAlgebraController';
 
-// Instância do controlador de parsing
 const parser = new ParseController();
 
 const UserRoutes = express.Router().use(express.json());
@@ -22,16 +21,13 @@ UserRoutes.post(Endpoint.VERIFY_QUERY, (req: Request, res: Response) => {
   const stringQuery: string = req.body.querySolicitada;
 
   if (typeof stringQuery !== 'string') {
-    return res.status(400).json({ message: 'Consulta SQL inválida. Forneça uma string.' });
+    return res.status(400).json({ message: 'Input inválido. Forneça uma string.' });
   }
 
-  // Validar a consulta SQL usando o ParseController
+
   const isValid = parser.validateSQL(stringQuery);
-  if (isValid) {
-    return res.status(200).json({ message: 'Consulta SQL válida.' });
-  } else {
-    return res.status(400).json({ message: 'Consulta SQL inválida.' });
-  }
+
+  return res.status(isValid ? 200 : 400).json({message : `Consulta SQL ${isValid ? "válida" : "inválida"}.`})
 });
 
 UserRoutes.post(Endpoint.CONVERT_QUERY, (req: Request, res: Response) => {

@@ -1,5 +1,24 @@
-const regex = /^SELECT\s(\*|[A-Za-z.]+(?:, [A-Za-z.]+)*)\sFROM\s[A-Za-z.]+(?:\s(?:WHERE\s[A-Za-z.]+|JOIN\s[A-Za-z.]+\sON\s[A-Za-z.]+\.[A-Za-z.]+\s=\s[A-Za-z.]+\.[A-Za-z.]+(?:\sJOIN\s[A-Za-z.]+\sON\s[A-Za-z.]+)*))?$/
+// Exemplos que retornarão true:
 
-const query = 'SELECT * FROM oie WHERE oioio';
+// 1. Esta consulta SQL é válida porque a tabela 'Cliente' e os campos 'Nome' e 'Email' existem no esquema do banco de dados.
+const sql1 = "SELECT Nome, Email FROM Cliente WHERE idCliente = 1";
 
-console.log(regex.test(query))
+// 2. Esta consulta SQL é válida porque usa o caractere '*' para selecionar todos os campos e a tabela 'Cliente' existe no esquema do banco de dados.
+const sql2 = "SELECT * FROM Cliente";
+
+//3 . VALIDO COM JOIN
+"querySolicitada" : "SELECT Nome, Email FROM Cliente JOIN Endereco ON Cliente_idCliente = idCliente WHERE idCliente = 1"
+
+// Exemplos que retornarão false:
+
+// 3. Esta consulta SQL é inválida porque a tabela 'Clientes' não existe no esquema do banco de dados.
+const sql3 = "SELECT * FROM Clientes";
+
+// 4. Esta consulta SQL é inválida porque o campo 'Sobrenome' não existe no esquema do banco de dados.
+const sql4 = "SELECT Nome, Sobrenome FROM Cliente WHERE idCliente = 1";
+
+// 5. Esta consulta SQL é inválida porque a tabela 'Produto' e o campo 'Preco' existem no esquema do banco de dados, mas o campo 'Desconto' não existe.
+const sql5 = "SELECT Preco, Desconto FROM Produto WHERE idProduto = 1";
+
+//6. INVALIDO COM JOIN
+    "querySolicitada" : "SELECT Nome, Email FROM Cliente JOIN Endereco ON SABUGO = idCliente WHERE idCliente = 1"
