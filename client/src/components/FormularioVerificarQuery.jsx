@@ -8,7 +8,6 @@ const FormularioVerificarQuery = (props) => {
     const [currentStateLabel, setCurrentStateLabel] = React.useState({ 'label': 'Digite a query para validação', 'color': 'black' })
     const handleChange = (event) => {
         const stringInput = event.target.value
-        console.log("String -> ", stringInput)
         setStringQuery(stringInput);
     };
 
@@ -25,18 +24,17 @@ const FormularioVerificarQuery = (props) => {
                 const messageResult = result.message
                 const hasMessageToCheck = messageResult != undefined
 
-                if (hasMessageToCheck) {
-                    const hasError = messageResult.includes('inválida')
+                console.log(hasMessageToCheck)
 
-                    if (hasError) {
-                        setCurrentStateLabel(
-                            { label: 'Sintaxe da consulta inválida ou campos inexistentes no banco. Verificar console.', color: 'red' }
-                        )
-                    } else {
-                        props.setResult(result)
-                        setConsultaRealizada(true)
-                    }
+                if (hasMessageToCheck && messageResult.includes('inválida')) {
+                    setCurrentStateLabel(
+                        { label: 'Sintaxe da consulta inválida ou campos inexistentes no banco. Verificar console.', color: 'red' }
+                    )
+                } else {
+                    //props.setResult(result)
+                    setConsultaRealizada(true)
                 }
+                
                 console.log('Resposta do servidor:', result)
             }
         )

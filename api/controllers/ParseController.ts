@@ -16,6 +16,9 @@ export class ParseController {
     const validarSintaxe: boolean = this.isSqlValid(sqlString)
     const validarCamposDoBanco: boolean = this.validateSqlWithSchema(sqlString)
     
+    if(!validarCamposDoBanco){
+      console.error("ERRO: ","CAMPO NÃO LOCALIZADO NO BANCO\n")
+    }
     return validarSintaxe && validarCamposDoBanco;
   }
 
@@ -25,7 +28,7 @@ export class ParseController {
       return true;
     } catch (error) {
 
-      console.log("ERRO DE SINTAXE -->", error)
+      console.error("ERRO DE SINTAXE: \n", error)
       return false;
     }
   } 
