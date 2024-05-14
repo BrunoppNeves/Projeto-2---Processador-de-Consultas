@@ -1,6 +1,7 @@
 import express, { Request, Response } from 'express';
 import { Paths, Endpoint } from '../models/ApiRoutes';
 import { ParseController } from '../controllers/ParseController'; // Atualize o caminho conforme necessário
+
 import {
   RelationalOperator,
   convertSQLToAlgebraRelational,
@@ -43,7 +44,7 @@ UserRoutes.post(Endpoint.CONVERT_QUERY, (req: Request, res: Response) => {
 
   try {
     // Converter a consulta SQL para álgebra relacional
-    const relationalOperator: RelationalOperator = convertSQLToAlgebraRelational(stringQuery);
+    const relationalOperatorHeuristics: RelationalOperator = convertSQLToAlgebraRelational(stringQuery);
 
     // Função auxiliar para criar uma representação simplificada do operador relacional
     function formatOperator(operator: RelationalOperator): any {
@@ -55,12 +56,13 @@ UserRoutes.post(Endpoint.CONVERT_QUERY, (req: Request, res: Response) => {
     }
 
     // Converter a árvore de operadores para um formato JSON
-    const formattedRelationalOperator = formatOperator(relationalOperator);
+    const formattedRelationalOperatorHeuristics = formatOperator(relationalOperatorHeuristics);
 
-    return res.status(200).json({ relationalOperator: formattedRelationalOperator });
+    return res.status(200).json({ relationalOperatorHeuristics: formattedRelationalOperatorHeuristics });
   } catch (error: any) {
     return res.status(400).json({ message: error.message });
   }
 });
+
 
 export default UserRoutes;

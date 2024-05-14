@@ -9,6 +9,8 @@
     "cors": "^2.8.5",
     "express": "^4.19.2",
     "mysql-query-validator": "^0.0.4",
+    "node": "^20.13.1",
+    "node-sql-parser": "^5.1.0",
     "nodemon": "^3.1.0",
     "ts-node": "^10.9.2",
     "ts-node-dev": "^2.0.0"
