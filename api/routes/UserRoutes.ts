@@ -6,7 +6,7 @@ import {
 } from '../models/RelationalOperator';
 import { convertSQLToAlgebraRelational } from '../controllers/RelationalAlgebraController'
 import { GraphElement } from '../models/GraphElement'
-
+import { applyHeuristics } from '../controllers/HeuristicsController';
 const parser = new ParseController();
 
 const UserRoutes = express.Router().use(express.json());
@@ -31,10 +31,11 @@ UserRoutes.post(Endpoint.GRAPH_QUERY, (req: Request, res: Response) => {
   }
 
   try {
-    const relationalOperatorHeuristics: RelationalOperator = convertSQLToAlgebraRelational(stringQuery);
+    const relationalOperator: RelationalOperator = convertSQLToAlgebraRelational(stringQuery);
+   // const relationalOperatorHeuristic = applyHeuristics(relationalOperator)
 
     const graphElements: GraphElement[] = [];
-    buildGraphDataFromJSON(relationalOperatorHeuristics, graphElements);
+    buildGraphDataFromJSON(relationalOperator, graphElements);
     console.log(JSON.stringify(graphElements));
 
     return res.status(200).json({ relationalOperatorHeuristics: graphElements });
@@ -58,7 +59,6 @@ UserRoutes.post(Endpoint.GRAPH_QUERY, (req: Request, res: Response) => {
     });
 
     
-
     return nodeId;
   }
 

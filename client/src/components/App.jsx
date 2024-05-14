@@ -6,11 +6,11 @@ function App() {
   const [result, setResult] = React.useState({})
 
   return (
-    <div className="App">
+    <div>
       {!consultaRealizada ?
         <FormularioVerificarQuery
-          handleConsultaRealizada={[consultaRealizada, setConsultaRealizada]}
-          setResult={setResult}>
+          handleConsultaRealizada={setConsultaRealizada}
+          setNewGraph={setResult}>
         </FormularioVerificarQuery>
         :
         <Grafo setConsultaRealizada={setConsultaRealizada} newGraph={result}></Grafo>

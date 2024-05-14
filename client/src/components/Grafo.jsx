@@ -1,33 +1,26 @@
 import React, { useState } from 'react'
 import CytoscapeComponent from 'react-cytoscapejs';
+import cytoscape from 'cytoscape';
+import dagre from 'cytoscape-dagre';
 
-export default function Grafo({newGraph, setConsultaRealizada}) {
+export default function Grafo({ newGraph, setConsultaRealizada }) {
     const [width, setWith] = useState("100%");
     const [height, setHeight] = useState("400px");
-    const [graphData, setGraphData] = useState([
-        //Node format
-        { data: { id: '1', label: 'Node 1' } },
-        { data: { id: '2', label: 'Node 2' } },
-        { data: { id: '3', label: 'Node 3' } },
-        { data: { id: '4', label: 'Node 4' } },
-        { data: { id: '5', label: 'Node 5' } },
-        { data: { id: '6', label: 'Node 6' } },
-        { data: { id: '7', label: 'Node 7' } },
-        { data: { id: '8', label: 'Node 8' } },
-        //Edge format
-        { data: { source: '1', target: '2', label: 'Edge from 1 to 2' } },
-        { data: { source: '1', target: '3', label: 'Edge from 1 to 3' } },
-        { data: { source: '4', target: '5', label: 'Edge from 4 to 5' } },
-        { data: { source: '6', target: '8', label: 'Edge from 6 to 8' } },
-    ]);
+    const [graphData, setGraphData] = useState([{ "data": { "id": "1", "label": "Projeção: Nome, Email" } }, { "data": { "id": "2", "label": "Seleção: idCliente = 1" } }, { "data": { "id": "3", "label": "Relação: Cliente" } }, { "data": { "id": "4", "label": "Junção: Endereco ON Cliente_idCliente = idCliente" } }]);
 
+    React.useEffect(() => {
+        setGraphData(newGraph.relationalOperatorHeuristics)
+    }, [newGraph])
+
+
+    cytoscape.use(dagre);
     const styleNodesAndEdges = [
         {
             selector: "node",
             style: {
                 backgroundColor: "#555",
-                width: 60,
-                height: 60,
+                width: 20,
+                height: 20,
                 label: "data(label)",
                 "text-valign": "center",
                 "text-halign": "center",
@@ -61,8 +54,8 @@ export default function Grafo({newGraph, setConsultaRealizada}) {
             selector: "edge",
             style: {
                 width: 8,
-                "line-color": "#6774cb",
-                "line-color": "#AAD8FF",
+                "line-color": "red",
+                "line-color": "red",
                 "target-arrow-color": "#6774cb",
                 "target-arrow-shape": "triangle",
                 "curve-style": "bezier",
@@ -90,54 +83,43 @@ export default function Grafo({newGraph, setConsultaRealizada}) {
             }
         }
     ]
-
-    React.useEffect(()=>{
-        console.log("Novo grafo")
-    },[newGraph])
-
     return (
-        <>
-            <div>
-                <h1 style={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-start' }}>Grafico Resultante</h1>
-                <div
-                    style={{
-                        border: "1px solid",
-                        backgroundColor: "#f5f6fe"
+            <div
+                style={{
+                    border: "1px solid",
+                    backgroundColor: "#f5f6fe",
+                    width: "100%" // Adicionando estilo para ocupar todo o espaço horizontal
+                }}
+            >
+                <CytoscapeComponent
+                    elements={graphData}
+                    style={{ width: width, height: height }}
+                    layout={{
+                        name: 'dagre',
+                        fit: true,
+                        directed: true,
+                        padding: 50,
+                        avoidOverlap: true,
+                        nodeDimensionsIncludeLabels: true,
+                        rankDir: 'TB'
                     }}
-                >
-                    <CytoscapeComponent
-                        elements={graphData}
-                        style={{ width: width, height: height }}
-                        layout={{
-                            name: 'breadthfirst',
-                            fit: true,
-                            directed: true,
-                            padding: 50,
-                            animate: true,
-                            animationDuration: 1000,
-                            avoidOverlap: true,
-                            nodeDimensionsIncludeLabels: false
-                        }}
-                        stylesheet={styleNodesAndEdges}
-                    />
-                <button 
-                    id="botaoEnviar" 
-                    onClick={()=>{setConsultaRealizada(false)}}
+                    stylesheet={styleNodesAndEdges}
+                />
+                <button
+                    id="botaoEnviar"
+                    onClick={() => { setConsultaRealizada(false) }}
                     style={{
                         "padding": "15px 30px",
-                        "background-color": "#0056b3",
+                        "backgroundColor": "#0056b3",
                         "color": "white",
                         "border": "none",
-                        "border-radius": "10px",
+                        "borderRadius": "10px",
                         "cursor": "pointer",
                         "transition": "background-color 0.3s ease"
-                      }
-                      }
+                    }}
                 >
-                        Realizar nova conversão
+                    Realizar nova conversão
                 </button>
-                </div>
             </div>
-        </>
     );
 }

@@ -22,9 +22,7 @@ const ACTIONS = {
         postQuery
     },
     paths:{
-        HELLO_WORLD : '/helloWorld',
-        VERIFY_QUERY : '/verifyQuery',
-        CONVERT_QUERY : '/convertQuery',
+      GRAPH_QUERY : '/graphQuery',
     }
 }
 

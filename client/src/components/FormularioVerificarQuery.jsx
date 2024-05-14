@@ -2,9 +2,8 @@ import React from "react";
 import '../styles/FormularioVerificarQuery.css';
 import ACTIONS from "../data/actions";
 
-const FormularioVerificarQuery = (props) => {
+const FormularioVerificarQuery = ({handleConsultaRealizada, setNewGraph}) => {
     const [stringQuery, setStringQuery] = React.useState('');
-    const [consultaRealizada, setConsultaRealizada] = props.handleConsultaRealizada
     const [currentStateLabel, setCurrentStateLabel] = React.useState({ 'label': 'Digite a query para validação', 'color': 'black' })
     const handleChange = (event) => {
         const stringInput = event.target.value
@@ -19,7 +18,7 @@ const FormularioVerificarQuery = (props) => {
         }
 
 
-        ACTIONS.requies.postQuery(stringQuery, ACTIONS.paths.CONVERT_QUERY,
+        ACTIONS.requies.postQuery(stringQuery, ACTIONS.paths.GRAPH_QUERY,
             (result) => {
                 const messageResult = result.message
                 const hasMessageToCheck = messageResult != undefined
@@ -31,11 +30,10 @@ const FormularioVerificarQuery = (props) => {
                         { label: 'Sintaxe da consulta inválida ou campos inexistentes no banco. Verificar console.', color: 'red' }
                     )
                 } else {
-                    //props.setResult(result)
-                    setConsultaRealizada(true)
+                    setNewGraph(result)
+                    handleConsultaRealizada(true)
                 }
                 
-                console.log('Resposta do servidor:', result)
             }
         )
 
