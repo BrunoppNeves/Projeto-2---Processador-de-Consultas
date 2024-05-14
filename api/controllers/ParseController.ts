@@ -16,6 +16,10 @@ export class ParseController {
         const validarSintaxe: boolean = this.isSqlValid(sqlString)
         const validarCamposDoBanco: boolean = this.validateSqlWithSchema(sqlString)
 
+        if(!validarCamposDoBanco){
+            console.error("ERRO DE CAMPO NAO LOCALIZADO PARA TABELA")
+        }
+        
         return validarSintaxe && validarCamposDoBanco;
     }
 
