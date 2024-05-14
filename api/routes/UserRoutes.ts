@@ -3,8 +3,8 @@ import { Paths, Endpoint } from '../models/ApiRoutes';
 import { ParseController } from '../controllers/ParseController'; // Atualize o caminho conforme necessário
 
 import {
-  RelationalOperator,
-  convertSQLToAlgebraRelational,
+    RelationalOperator,
+    convertSQLToAlgebraRelational, createTreeFromSQL,
 } from '../controllers/RelationalAlgebraController';
 
 const parser = new ParseController();
@@ -58,7 +58,7 @@ UserRoutes.post(Endpoint.CONVERT_QUERY, (req: Request, res: Response) => {
     // Converter a árvore de operadores para um formato JSON
     const formattedRelationalOperatorHeuristics = formatOperator(relationalOperatorHeuristics);
 
-    return res.status(200).json({ relationalOperatorHeuristics: formattedRelationalOperatorHeuristics });
+    return res.status(200).json({ relationalOperatorHeuristics: createTreeFromSQL(stringQuery) });
   } catch (error: any) {
     return res.status(400).json({ message: error.message });
   }
