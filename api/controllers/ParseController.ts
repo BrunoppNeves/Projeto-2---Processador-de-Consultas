@@ -16,8 +16,6 @@ export class ParseController {
     const validarSintaxe: boolean = this.isSqlValid(sqlString)
     const validarCamposDoBanco: boolean = this.validateSqlWithSchema(sqlString)
     
-
-    console.log("Campos validos ", validarCamposDoBanco)
     return validarSintaxe && validarCamposDoBanco;
   }
 
@@ -26,6 +24,8 @@ export class ParseController {
       validate(sql);
       return true;
     } catch (error) {
+
+      console.log("ERRO DE SINTAXE -->", error)
       return false;
     }
   } 
@@ -63,17 +63,6 @@ export class ParseController {
         return false;
       }
     }
-  
-    // // Adicionado: Verificar se todos os campos em JOINs existem no esquema do banco de dados
-    // const joinFields = sql.match(/(?<=JOIN\s+\w+\s+ON\s+\w+\.)\w+/gi);
-  
-    // if (joinFields) {
-    //   for (const field of joinFields) {
-    //     if (!columnNames.has(field)) {
-    //       return false;
-    //     }
-    //   }
-    // }
   
     return true;
   }
