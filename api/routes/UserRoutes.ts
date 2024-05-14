@@ -5,6 +5,7 @@ import {
   RelationalOperator
 } from '../models/RelationalOperator';
 import { convertSQLToAlgebraRelational } from '../controllers/RelationalAlgebraController'
+import { applyHeuristics } from '../controllers/HeuristicsController'
 import { GraphElement } from '../models/GraphElement'
 
 const parser = new ParseController();
@@ -44,7 +45,8 @@ UserRoutes.post(Endpoint.CONVERT_QUERY, (req: Request, res: Response) => {
 
   try {
     // Converter a consulta SQL para álgebra relacional
-    const relationalOperatorHeuristics: RelationalOperator = convertSQLToAlgebraRelational(stringQuery);
+    const relationalOperator: RelationalOperator = convertSQLToAlgebraRelational(stringQuery);
+    const relationalOperatorHeuristic = applyHeuristics(relationalOperator)
 
     // Função auxiliar para criar uma representação simplificada do operador relacional
     function formatOperator(operator: RelationalOperator): any {
@@ -56,7 +58,7 @@ UserRoutes.post(Endpoint.CONVERT_QUERY, (req: Request, res: Response) => {
     }
 
     // Converter a árvore de operadores para um formato JSON
-    const formattedRelationalOperatorHeuristics = formatOperator(relationalOperatorHeuristics);
+    const formattedRelationalOperatorHeuristics = formatOperator(relationalOperatorHeuristic);
 
     return res.status(200).json({ relationalOperatorHeuristics: formattedRelationalOperatorHeuristics });
   } catch (error: any) {

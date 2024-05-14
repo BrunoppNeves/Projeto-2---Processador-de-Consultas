@@ -1,8 +1,10 @@
 // Heuristics.ts
 import { RelationalOperator } from '../models/RelationalOperator';
 
-export function applyHeuristics(projection: RelationalOperator): void {
+
+export function applyHeuristics(projection: RelationalOperator) {
   applyProjectionAndSelectionHeuristics(projection);
+  return projection;
 }
 
 function applyProjectionAndSelectionHeuristics(projection: RelationalOperator): void {
